@@ -33,7 +33,6 @@ In this version StreamSubscription will be used.
     - context.read<WeatherRepository> used to provide WeatherRepository to WeatherCubit.
 - BlocProvider<TempSettingsBloc>
 - BlocProvider<ThemeBloc>
-- BlocListener<WeatherBloc, WeatherState> was used to pass the state changes of the temperature to context.read<ThemeBloc> .
 
 ## Models Used
 openWeather has deprecated using City and Country for weather look up and need lat and lon instead.
