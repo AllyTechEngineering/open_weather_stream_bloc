@@ -1,5 +1,5 @@
-# open_weather_listener_bloc
-
+# open_weather_stream_bloc
+## A weather app with search screen and temperature settings switch.
 This project uses BLoC and this implementation uses Blocs with a repository.
 In this version StreamSubscription will be used.
 
