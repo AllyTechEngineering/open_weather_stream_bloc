@@ -60,6 +60,7 @@ class WeatherApiServices {
         'appid': dotenv.env['APPID'],
       },
     );
+    print('This is the uri API call: $uri');
 
     try {
       final http.Response response = await httpClient.get(uri);
@@ -69,9 +70,10 @@ class WeatherApiServices {
       }
 
       final weatherJson = json.decode(response.body);
+      print('This is weatherJson: $weatherJson');
 
       final Weather weather = Weather.fromJson(weatherJson);
-
+      print('This is the JSON response for weather: $weather');
       return weather;
     } catch (e) {
       rethrow;

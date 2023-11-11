@@ -9,6 +9,8 @@ class Weather extends Equatable {
   final String name;
   final String country;
   final DateTime lastUpdated;
+  final double speed;
+  final int deg;
   Weather({
     required this.description,
     required this.icon,
@@ -18,11 +20,14 @@ class Weather extends Equatable {
     required this.name,
     required this.country,
     required this.lastUpdated,
+    required this.speed,
+    required this.deg,
   });
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     final weather = json['weather'][0];
     final main = json['main'];
+    final wind = json['wind'];
 
     return Weather(
       description: weather['description'],
@@ -30,6 +35,8 @@ class Weather extends Equatable {
       temp: main['temp'],
       tempMin: main['temp_min'],
       tempMax: main['temp_max'],
+      speed: wind['speed'],
+      deg: wind['deg'],
       name: '',
       country: '',
       lastUpdated: DateTime.now(),
@@ -42,6 +49,8 @@ class Weather extends Equatable {
         temp: 100.0,
         tempMin: 100.0,
         tempMax: 100.0,
+        speed: 0.0,
+        deg: 0,
         name: '',
         country: '',
         lastUpdated: DateTime(1970),
@@ -55,6 +64,8 @@ class Weather extends Equatable {
       temp,
       tempMin,
       tempMax,
+      speed,
+      deg,
       name,
       country,
       lastUpdated,
@@ -63,7 +74,7 @@ class Weather extends Equatable {
 
   @override
   String toString() {
-    return 'Weather(description: $description, icon: $icon, temp: $temp, tempMin: $tempMin, tempMax: $tempMax, name: $name, country: $country, lastUpdated: $lastUpdated)';
+    return 'Weather(description: $description, icon: $icon, temp: $temp, tempMin: $tempMin, tempMax: $tempMax, name: $name, country: $country, lastUpdated: $lastUpdated, speed: $speed, deg: $deg)';
   }
 
   Weather copyWith({
@@ -75,6 +86,8 @@ class Weather extends Equatable {
     String? name,
     String? country,
     DateTime? lastUpdated,
+    double? speed,
+    int? deg,
   }) {
     return Weather(
       description: description ?? this.description,
@@ -85,6 +98,8 @@ class Weather extends Equatable {
       name: name ?? this.name,
       country: country ?? this.country,
       lastUpdated: lastUpdated ?? this.lastUpdated,
+      speed: speed ?? this.speed,
+      deg: deg ?? this.deg,
     );
   }
 }

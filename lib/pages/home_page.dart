@@ -33,11 +33,9 @@ class _HomePageState extends State<HomePage> {
                   return SearchPage();
                 }),
               );
-              print('city: $_city');
+              // print('city: $_city');
               if (_city != null) {
-                context
-                    .read<WeatherBloc>()
-                    .add(FetchWeatherEvent(city: _city!));
+                context.read<WeatherBloc>().add(FetchWeatherEvent(city: _city!));
               }
             },
           ),
@@ -136,8 +134,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  TimeOfDay.fromDateTime(state.weather.lastUpdated)
-                      .format(context),
+                  TimeOfDay.fromDateTime(state.weather.lastUpdated).format(context),
                   style: const TextStyle(fontSize: 18.0),
                 ),
                 const SizedBox(width: 10.0),
@@ -172,6 +169,15 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+              ],
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Wind Speed Goes Here'),
               ],
             ),
             const SizedBox(height: 40.0),
