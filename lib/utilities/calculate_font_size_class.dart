@@ -20,6 +20,7 @@ class CalculateFontSizeClass {
       double iPhone320x568landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width == 320 && height == 568)) {
         adjustedFontSize = iPhone320x568portrait * scaleFactor;
+        debugPrint('in iPhones: 320 w x 568 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width == 568 && height == 320)) {
         adjustedFontSize = iPhone320x568landscape * scaleFactor;
@@ -251,33 +252,285 @@ class CalculateFontSizeClass {
       }
     }
     if (Platform.isAndroid) {
-      // 480 x 800
+      // generic Android screen size: small less then 320px
+      double androidGenericSmallPortrait = 10.0;
+      double androidGenericSmallLandscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width < 320)) {
+        adjustedFontSize = androidGenericSmallPortrait * scaleFactor;
+        debugPrint('in Android screen size: small less then 320px height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (height < 320)) {
+        adjustedFontSize = androidGenericSmallLandscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // generic Android screen size: medium width >= 320 && width <= 360
+      double androidGenericMediumPortrait = 10.0;
+      double androidGenericMediumLandscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 320 && width <= 360)) {
+        adjustedFontSize = androidGenericMediumPortrait * scaleFactor;
+        debugPrint(
+            'in Android screen size: medium width >= 320 && width <= 360 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (height >= 320 && height <= 360)) {
+        adjustedFontSize = androidGenericMediumLandscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // generic Android screen size: large width >= 360 && width <= 420
+      double androidGenericLargePortrait = 10.0;
+      double androidGenericLargeLandscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 360 && width <= 420)) {
+        adjustedFontSize = androidGenericLargePortrait * scaleFactor;
+        debugPrint(
+            'in Android screen size: large width >= 360 && width <= 420 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (height >= 360 && height <= 420)) {
+        adjustedFontSize = androidGenericLargeLandscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // generic Android screen size: tablet width >= 421
+      double androidGenericTabletPortrait = 10.0;
+      double androidGenericTableLandscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 421)) {
+        adjustedFontSize = androidGenericTabletPortrait * scaleFactor;
+        debugPrint('in Android screen size: tablet width >= 421 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (height >= 421)) {
+        adjustedFontSize = androidGenericTableLandscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // 182 x 295 logical px
+      // 480 x 800 dp
       // Samsung Galaxy S
       // Samsung Galaxy S Plus
       // Samsung Nexus S
       // Samsung Galaxy SII
-      double android480x800portrait = 10.0;
-      double android480x800landscape = 10.0;
-      if ((orientation == Orientation.portrait) && (width == 320 && height == 568)) {
-        adjustedFontSize = android480x800portrait * scaleFactor;
+      double android182x295portrait = 10.0;
+      double android182x295landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 182 && height <= 295)) {
+        adjustedFontSize = android182x295portrait * scaleFactor;
+        debugPrint('in Android 182 x 295 height: $height\nwidth: $width');
         return adjustedFontSize;
-      } else if (orientation == Orientation.landscape && (width == 568 && height == 320)) {
-        adjustedFontSize = android480x800landscape * scaleFactor;
+      } else if (orientation == Orientation.landscape && (width >= 295 && height <= 182)) {
+        adjustedFontSize = android182x295landscape * scaleFactor;
         return adjustedFontSize;
       }
-      // 480 x 854
+      // 182 x 315 logical px
+      // 480 x 854 dp
       // Motorola Droid
-      double android480x854portrait = 10.0;
-      double android480x854landscape = 10.0;
-      if ((orientation == Orientation.portrait) && (width == 320 && height == 568)) {
-        adjustedFontSize = android480x854portrait * scaleFactor;
+      double android182x315portrait = 10.0;
+      double android182x315landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 182 && height <= 315)) {
+        adjustedFontSize = android182x315portrait * scaleFactor;
+        debugPrint('in Android 182 x 315 height: $height\nwidth: $width');
         return adjustedFontSize;
-      } else if (orientation == Orientation.landscape && (width == 568 && height == 320)) {
-        adjustedFontSize = android480x854landscape * scaleFactor;
+      } else if (orientation == Orientation.landscape && (width >= 315 && height <= 182)) {
+        adjustedFontSize = android182x315landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // 205 x 354 logical px
+      // 540 x 960 dp
+      // Motorola Droid Razr
+      // Motorola Droid Razr Maxx
+      // Motorola Moto E
+      double android205x354portrait = 10.0;
+      double android205x354landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 205 && height <= 354)) {
+        adjustedFontSize = android205x354portrait * scaleFactor;
+        debugPrint('in Android 205 x 354 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 354 && height <= 205)) {
+        adjustedFontSize = android205x354landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // 274 x 472 logical px
+      // 720 x 1280 dp
+      // LG Phoenix 2
+      // Samsung Galaxy Nexus
+      // Samsung Galaxy SIII
+      // Motorola Moto G
+      // Samsung A5
+      // Samsung Z3
+      // Sony Xperia M4
+      // Samsung Galaxy Note II
+      // Samsung Galaxy J7
+      //
+      // 292 x 472 logical px
+      // 768 x 1280 dp
+      // LG Nexus 4
+      // LG Nexus 4 AR
+      double android292x472portrait = 10.0;
+      double android292x472landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 292 && height <= 472)) {
+        adjustedFontSize = android292x472portrait * scaleFactor;
+        debugPrint('in Android 292 x 472 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 472 && height <= 292)) {
+        adjustedFontSize = android292x472landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+
+      // 304 x 472 logical px
+      // 800 x 1280 dp
+      // Samsung Galaxy Note
+      double android304x472portrait = 10.0;
+      double android304x472landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 304 && height <= 472)) {
+        adjustedFontSize = android304x472portrait * scaleFactor;
+        debugPrint('in Android 304 x 472 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 472 && height <= 304)) {
+        adjustedFontSize = android304x472landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // 365 x 199 logical px
+      // 960 x 540 dp
+      // Sony Xperia E4 Dual
+      double android365x199portrait = 10.0;
+      double android365x199landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 365 && height <= 199)) {
+        adjustedFontSize = android365x199portrait * scaleFactor;
+        debugPrint('in Android 304 x 472 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 199 && height <= 365)) {
+        adjustedFontSize = android365x199landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // 487 x 266 logical px
+      // 960 x 540 dp
+      // Sony Xperia T2 Ultra Dual
+      double android487x266portrait = 10.0;
+      double android487x266landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 487 && height <= 266)) {
+        adjustedFontSize = android487x266portrait * scaleFactor;
+        debugPrint('in Android 487 x 266 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 266 && height <= 487)) {
+        adjustedFontSize = android487x266landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // Pixel 1080x2220 is actually 392 x 784 logical px
+      //
+      // 411 x 708 logical px
+      // 1080 x 1920 dp
+      // Nexus 6
+      // Samsung Galaxy SIV
+      // Sony Xperia Z
+      // Google Pixel
+      // Samsung Galaxy S5
+      // Samsung Galaxy SV
+      // LG Nexus 5X
+      // Sony Xperia Z3
+      // Sony Xperia Z5
+      // LG GX F310L
+      // Samsung Galaxy J7 Prime2
+      // Samsung Galaxy J7 Prime
+      // Samsung Galaxy Note10
+      //
+      // 411 x 841 logical px
+      // 1080 x 2280 dp
+      // Samsung Galaxy Note10
+      //
+      // 411 x 863 logical px
+      // 1080 x 2340 dp
+      // Samsung Galaxy A30
+      // Samsung Galaxy A50s
+      // Samsung Galaxy A50
+      //
+      // 411 x 885 logical px
+      // 1080 x 2400 dp
+      // Samsung Galaxy A70s
+      // Samsung Galaxy A51
+      // Samsung Galaxy S10 Lite
+      // Samsung Galaxy A71
+      // Samsung Galaxy Note20
+      double android392x885portrait = 10.0;
+      double android392x885landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 392 && height <= 885)) {
+        adjustedFontSize = android392x885portrait * scaleFactor;
+        debugPrint('in Android 392 x 885 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 885 && height <= 392)) {
+        adjustedFontSize = android392x885landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // 548 x 944 logical px
+      // 1440 x 2560 dp
+      // Samsung Galaxy S6
+      // Samsung Galaxy S7
+      // Motorola Droid Turbo
+      // LG G4
+      // LG G3
+      // Google Pixel XL
+      // Samsung Galaxy S7 Edge
+      // LG V10
+      // Motorola Moto X Style
+      // Samsung Galaxy Note5
+      // Samsung Galaxy S6 Edge+
+      // Samsung Galaxy Note4
+      // Motorola Nexus 6
+      //
+      // 548 x 1121 logical px
+      // 1440 x 3040 dp
+      // Samsung Galaxy Note10+
+      //
+      // 548 x 1138 logical px
+      // 1440 x 3088 dp
+      // Samsung Galaxy Note20 Ultra
+      //
+      // 548 x 1180 logical px
+      // 1440 x 3200 dp
+      // Samsung Galaxy S20+
+      // Samsung Galaxy S20 Ultra
+      double android548x1180portrait = 10.0;
+      double android548x1180landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 548 && height <= 1180)) {
+        adjustedFontSize = android548x1180portrait * scaleFactor;
+        debugPrint('in Android 548 x 1180 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 1180 && height <= 548)) {
+        adjustedFontSize = android548x1180landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+      // 731 x 398 logical px
+      // 1920 x 1080 dp
+      // Sony Xperia X
+      // Sony Xperia Z1
+      // Sony Xperia Z3 Plus
+      // Sony Xperia C4 Dual
+      // Lenovo Vibe K4 Note
+      // Lenovo K3 Note
+      // Motorola Moto G4 Plus
+      double android731x398portrait = 10.0;
+      double android731x398landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 731 && height <= 398)) {
+        adjustedFontSize = android731x398portrait * scaleFactor;
+        debugPrint('in Android 731 x 398 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 398 && height <= 731)) {
+        adjustedFontSize = android731x398landscape * scaleFactor;
+        return adjustedFontSize;
+      }
+
+      // 975 x 531 logical px
+      // 2560 x 1440 dp
+      // Motorola Moto Z
+      //
+      // 1127 x 531 logical px
+      // 2960 x 1440 dp
+      // Samsung Galaxy S8
+      // Samsung Galaxy S8+
+      double android975x531portrait = 10.0;
+      double android975x531landscape = 10.0;
+      if ((orientation == Orientation.portrait) && (width >= 1127 && height <= 531)) {
+        adjustedFontSize = android975x531portrait * scaleFactor;
+        debugPrint('in Android 1127 x 531 height: $height\nwidth: $width');
+        return adjustedFontSize;
+      } else if (orientation == Orientation.landscape && (width >= 531 && height <= 1127)) {
+        adjustedFontSize = android975x531landscape * scaleFactor;
         return adjustedFontSize;
       }
     }
     // default font size
-    return adjustedFontSize = 12.0;
+    return adjustedFontSize = 20.0;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utilities/constants.dart';
+
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
 
@@ -29,6 +31,14 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_circle_left_outlined,
+            size: kIconThemeIconSize,
+            color: Color(kIconThemeColor),
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           'Search...',
           style: Theme.of(context).textTheme.titleLarge,
@@ -109,7 +119,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                   validator: (String? input) {
                     if (input == null || input.trim().length < 2) {
-                      return 'City name must be at least 2 characters long';
+                      return 'City name: at least 2 characters';
                     }
                     return null;
                   },
@@ -139,7 +149,7 @@ class _SearchPageState extends State<SearchPage> {
                 child: ElevatedButton(
                   onPressed: _submit,
                   child: Text(
-                    "How's weather?",
+                    "Check Weather",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                 ),
