@@ -1,9 +1,8 @@
 import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-
-import '../constants/constants.dart';
+import '../utilities/constants.dart';
 import '../exceptions/weather_exception.dart';
 import '../models/direct_geocoding.dart';
 import '../models/weather.dart';
@@ -44,6 +43,7 @@ class WeatherApiServices {
 
       return directGeocoding;
     } catch (e) {
+      debugPrint('Error: ${e.runtimeType}');
       rethrow;
     }
   }
@@ -60,7 +60,7 @@ class WeatherApiServices {
         'appid': dotenv.env['APPID'],
       },
     );
-    print('This is the uri API call: $uri');
+    debugPrint('This is the uri API call: $uri');
 
     try {
       final http.Response response = await httpClient.get(uri);
@@ -70,10 +70,10 @@ class WeatherApiServices {
       }
 
       final weatherJson = json.decode(response.body);
-      print('This is weatherJson: $weatherJson');
+      debugPrint('This is weatherJson: $weatherJson');
 
       final Weather weather = Weather.fromJson(weatherJson);
-      print('This is the JSON response for weather: $weather');
+      debugPrint('This is the JSON response for weather: $weather');
       return weather;
     } catch (e) {
       rethrow;

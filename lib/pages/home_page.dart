@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:open_weather_stream_bloc/utilities/calculate_font_size_class.dart';
 import 'package:recase/recase.dart';
-
-import '../constants/constants.dart';
+import '../utilities/constants.dart';
 import '../blocs/blocs.dart';
 import '../widgets/error_dialog.dart';
 import 'search_page.dart';
 import 'settings_page.dart';
+// import 'dart:io';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -22,7 +23,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather'),
+        title: Text(
+          'Weather Report',
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -33,14 +37,15 @@ class _HomePageState extends State<HomePage> {
                   return SearchPage();
                 }),
               );
-              // print('city: $_city');
               if (_city != null) {
                 context.read<WeatherBloc>().add(FetchWeatherEvent(city: _city!));
               }
             },
           ),
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(
+              Icons.settings,
+            ),
             onPressed: () {
               Navigator.push(
                 context,
@@ -51,6 +56,14 @@ class _HomePageState extends State<HomePage> {
             },
           ),
         ],
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/weather_background.png'),
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
       ),
       body: _showWeather(),
     );
@@ -58,20 +71,55 @@ class _HomePageState extends State<HomePage> {
 
   String showTemperature(double temperature) {
     final tempUnit = context.watch<TempSettingsBloc>().state.tempUnit;
-
     if (tempUnit == TempUnit.fahrenheit) {
       return ((temperature * 9 / 5) + 32).toStringAsFixed(2) + '℉';
     }
-
     return temperature.toStringAsFixed(2) + '℃';
+  }
+
+  String showWindSpeed(double windSpeed) {
+    final tempUnit = context.watch<TempSettingsBloc>().state.tempUnit;
+
+    if (tempUnit == TempUnit.fahrenheit) {
+      return (windSpeed * 1.943844).toStringAsFixed(2) + ' kn';
+    }
+    return windSpeed.toStringAsFixed(2) + ' m/s';
+  }
+
+  String showWindDirection(int windDegree) {
+    double windDirectionIndex;
+    var windDirectionString;
+    List<String> windDegreeList = [
+      'N',
+      'NNE',
+      'NE',
+      'ENE',
+      'E',
+      'ESE',
+      'SE',
+      'SSE',
+      'S',
+      'SSW',
+      'SW',
+      'WSW',
+      'W',
+      'WNW',
+      'NW',
+      'NNW',
+      'N'
+    ];
+    windDirectionIndex = windDegree % 360;
+    windDirectionIndex = (windDirectionIndex / 22.50) + 1;
+    windDirectionString = windDegreeList[windDirectionIndex.toInt()];
+    return windDirectionString;
   }
 
   Widget showIcon(String icon) {
     return FadeInImage.assetNetwork(
       placeholder: 'assets/images/loading.gif',
       image: 'http://$kIconHost/img/wn/$icon@4x.png',
-      width: 96,
-      height: 96,
+      width: kShowIconWidth,
+      height: kShowIconHeight,
     );
   }
 
@@ -79,7 +127,7 @@ class _HomePageState extends State<HomePage> {
     final formattedString = description.titleCase;
     return Text(
       formattedString,
-      style: const TextStyle(fontSize: 24.0),
+      style: Theme.of(context).textTheme.displayLarge,
       textAlign: TextAlign.center,
     );
   }
@@ -93,10 +141,40 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         if (state.status == WeatherStatus.initial) {
-          return const Center(
-            child: Text(
-              'Select a city',
-              style: TextStyle(fontSize: 20.0),
+          return Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    opacity: 1.0,
+                    image: AssetImage('assets/images/sunny_weather.png'),
+                    fit: BoxFit.cover)),
+            child: Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      size: Theme.of(context).iconTheme.size,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
+                    onPressed: () async {
+                      _city = await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return SearchPage();
+                        }),
+                      );
+                      if (_city != null) {
+                        context.read<WeatherBloc>().add(FetchWeatherEvent(city: _city!));
+                      }
+                    },
+                  ),
+                  Text(
+                    'Select a city',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -108,92 +186,143 @@ class _HomePageState extends State<HomePage> {
         }
 
         if (state.status == WeatherStatus.error && state.weather.name == '') {
-          return const Center(
+          return Center(
             child: Text(
               'Select a city',
-              style: TextStyle(fontSize: 20.0),
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           );
         }
 
-        return ListView(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 6,
-            ),
-            Text(
-              state.weather.name,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 40.0,
-                fontWeight: FontWeight.bold,
+        return Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                opacity: 1.0,
+                image: AssetImage('assets/images/sunny_weather.png'),
+                fit: BoxFit.cover),
+          ),
+          child: ListView(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 20,
               ),
-            ),
-            const SizedBox(height: 10.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  TimeOfDay.fromDateTime(state.weather.lastUpdated).format(context),
-                  style: const TextStyle(fontSize: 18.0),
-                ),
-                const SizedBox(width: 10.0),
-                Text(
-                  '(${state.weather.country})',
-                  style: const TextStyle(fontSize: 18.0),
-                ),
-              ],
-            ),
-            const SizedBox(height: 60.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  showTemperature(state.weather.temp),
-                  style: const TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
+              Text(
+                state.weather.name,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+              const SizedBox(width: 8.0),
+              Text(
+                'Country: ${state.weather.country}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Your Time: ${TimeOfDay.fromDateTime(state.weather.lastUpdated).format(context)}',
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
-                const SizedBox(width: 20.0),
-                Column(
-                  children: [
-                    Text(
-                      showTemperature(state.weather.tempMax),
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Text(
-                      showTemperature(state.weather.tempMin),
-                      style: const TextStyle(fontSize: 16.0),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Wind Speed Goes Here'),
-              ],
-            ),
-            const SizedBox(height: 40.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Spacer(),
-                showIcon(state.weather.icon),
-                Expanded(
-                  flex: 3,
-                  child: formatText(state.weather.description),
-                ),
-                Spacer(),
-              ],
-            ),
-          ],
+                ],
+              ),
+              Divider(
+                thickness: 2.0,
+                indent: 20.0,
+                endIndent: 20.0,
+                height: 20.0,
+                color: Colors.black,
+              ),
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Now: ${showTemperature(state.weather.temp)}',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(width: 20.0),
+                  Column(
+                    children: [
+                      Text(
+                        'Max: ${showTemperature(state.weather.tempMax)}',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      const SizedBox(height: 8.0),
+                      Text(
+                        'Min: ${showTemperature(state.weather.tempMin)}',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Divider(
+                thickness: 2.0,
+                indent: 20.0,
+                endIndent: 20.0,
+                height: 20.0,
+                color: Colors.black,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Humidity: ${state.weather.humidity} %',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Wind Speed: ${showWindSpeed(state.weather.speed)}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Wind Direction: ${showWindDirection(state.weather.deg)}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+              Divider(
+                thickness: 2.0,
+                indent: 20.0,
+                endIndent: 20.0,
+                height: 20.0,
+                color: Colors.black,
+              ),
+              // const SizedBox(height: 6.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Spacer(),
+                  showIcon(state.weather.icon),
+                  Expanded(
+                    flex: 3,
+                    child: formatText(state.weather.description),
+                  ),
+                  Spacer(),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

@@ -5,7 +5,7 @@ In this version StreamSubscription will be used.
 
 - StreamSubscription
     - Pros
-        - Organzied, structured and easy to read and maintain.
+        - Organized, structured and easy to read and maintain.
         - TBD
     - Cons
         - It may get cluttered really fast and hard to scale on large apps.
@@ -27,7 +27,7 @@ In this version StreamSubscription will be used.
 - WeatherRepository
 
 ##  Flutter BLoC Used
-- RepositoryProvider for depenency injection.
+- RepositoryProvider for dependency injection.
 - MultiBlocProvider to avoid nesting BlocProviders
 - BlocProvider<WeatherBloc>
     - context.read<WeatherRepository> used to provide WeatherRepository to WeatherCubit.
@@ -49,14 +49,14 @@ openWeather has deprecated using City and Country for weather look up and need l
 - Used the flutter_dotenv package to hide the API key in a .env file and used gitignore to ensure the file was not made public on GitHub.
 
 ## Packages Used
-- equatable: ^2.0.5
+- equatable: 
     - A Dart package that helps to implement value based equality without needing to explicitly override == and hashCode.
-- flutter_bloc: ^8.1.2
+- flutter_bloc: 
     - Flutter Widgets that make it easy to implement the BLoC (Business Logic Component) design pattern. Built to be used with the bloc state management package.
-- flutter_dotenv: ^5.1.0
+- flutter_dotenv: 
     - Easily configure any flutter application with global variables using a `.env` file.
-- http: ^1.1.0
+- http: 
     - A composable, multi-platform, Future-based API for HTTP requests.
-- recase: ^4.1.0
+- recase: 
     - Changes the case of the input text to the desire case convention.
 

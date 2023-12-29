@@ -2,17 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:open_weather_stream_bloc/models/weather.dart';
+import 'package:open_weather_stream_bloc/utilities/app_theme_data_class.dart';
 import 'pages/home_page.dart';
 import 'repositories/weather_repository.dart';
 import 'services/weather_api_services.dart';
 import 'blocs/blocs.dart';
+
 void main() async {
   await dotenv.load(fileName: '.env');
-  runApp(const MyApp());
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final AppThemeDataClass appThemeDataClass = AppThemeDataClass();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +48,8 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               title: 'Weather App',
               debugShowCheckedModeBanner: false,
-              theme: state.appTheme == AppTheme.light
-                  ? ThemeData.light()
-                  : ThemeData.dark(),
+              theme: AppThemeDataClass().getAppTheme(context),
+              // theme: state.appTheme == AppTheme.light ? ThemeData.light() : ThemeData.dark(),
               home: const HomePage(),
             );
           },
