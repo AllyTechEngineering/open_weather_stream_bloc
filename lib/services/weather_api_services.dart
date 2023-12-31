@@ -48,47 +48,9 @@ class WeatherApiServices {
     }
   }
 
-  Future<Weather> getWeatherFromLocationData(double lat, double lon) async {
-    debugPrint(' in getWeatherFromLocationData');
-    debugPrint('lat = $lat');
-    debugPrint('lat = $lon');
-    double latValue = lat.abs();
-    double lonValue = lon.abs();
-
-    final Uri uri = Uri(
-      scheme: 'https',
-      host: kApiHost,
-      path: '/data/2.5/weather',
-      queryParameters: {
-        'lat': '$latValue',
-        'lon': '$lonValue',
-        'units': kUnit,
-        'appid': dotenv.env['APPID'],
-      },
-    );
-    debugPrint('This is the uri API call: $uri');
-
-    try {
-      final http.Response response = await httpClient.get(uri);
-
-      if (response.statusCode != 200) {
-        throw Exception(httpErrorHandler(response));
-      }
-
-      final weatherJson = json.decode(response.body);
-      debugPrint('This is weatherJson: $weatherJson');
-
-      final Weather weather = Weather.fromJson(weatherJson);
-      debugPrint('This is the JSON response for weather: $weather');
-      return weather;
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   Future<Weather> getWeather(DirectGeocoding directGeocoding) async {
-    debugPrint('directGeocoding.lat = ${directGeocoding.lat}');
-    debugPrint('directGeocoding.lat = ${directGeocoding.lon}');
+    // debugPrint('directGeocoding.lat = ${directGeocoding.lat}');
+    // debugPrint('directGeocoding.lat = ${directGeocoding.lon}');
     final Uri uri = Uri(
       scheme: 'https',
       host: kApiHost,

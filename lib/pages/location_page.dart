@@ -16,7 +16,6 @@ class _LocationPageState extends State<LocationPage> {
   String? _currentAddress;
   Position? _currentPosition;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +62,7 @@ class _LocationPageState extends State<LocationPage> {
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content:
-          Text('Location permissions are permanently denied, we cannot request permissions.')));
+              Text('Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
     return true;
@@ -74,8 +73,8 @@ class _LocationPageState extends State<LocationPage> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      debugPrint('position = ${position.longitude}');
-      debugPrint('position = ${position.latitude}');
+      // debugPrint('position = ${position.longitude}');
+      // debugPrint('position = ${position.latitude}');
       setState(() => _currentPosition = position);
       _getAddressFromLatLng(_currentPosition!);
     }).catchError((e) {
@@ -89,7 +88,7 @@ class _LocationPageState extends State<LocationPage> {
       Placemark place = placemarks[0];
       setState(() {
         _currentAddress =
-        '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
       });
     }).catchError((e) {
       debugPrint(e);

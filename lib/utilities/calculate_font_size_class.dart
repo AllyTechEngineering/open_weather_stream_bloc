@@ -7,8 +7,8 @@ class CalculateFontSizeClass {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     Orientation orientation = MediaQuery.of(context).orientation;
-    debugPrint(
-        'in calculateFontSize: orientation = $orientation\nheight = $height\nwidth = $width');
+    // debugPrint(
+    //     'in calculateFontSize: orientation = $orientation\nheight = $height\nwidth = $width');
 
     if (Platform.isIOS) {
       // iPhones: 320 w x 568 h
@@ -20,7 +20,7 @@ class CalculateFontSizeClass {
       double iPhone320x568landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width == 320 && height == 568)) {
         adjustedFontSize = iPhone320x568portrait * scaleFactor;
-        debugPrint('in iPhones: 320 w x 568 height: $height\nwidth: $width');
+        // debugPrint('in iPhones: 320 w x 568 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width == 568 && height == 320)) {
         adjustedFontSize = iPhone320x568landscape * scaleFactor;
@@ -93,12 +93,12 @@ class CalculateFontSizeClass {
       double iPhone393x852portrait = 10.0;
       double iPhone393x852landscape = 10.0;
       if ((orientation == Orientation.portrait) && ((width == 393) && (height == 852))) {
-        debugPrint(
-            'in else portrait: iPhones: 430 w x 932 h\nadjustedFontSize = $adjustedFontSize');
+        // debugPrint(
+        //     'in else portrait: iPhones: 430 w x 932 h\nadjustedFontSize = $adjustedFontSize');
         adjustedFontSize = iPhone393x852portrait * scaleFactor;
         return adjustedFontSize;
       } else if ((orientation == Orientation.landscape) && ((width == 852) && (height == 393))) {
-        debugPrint('in else landscape: iPhones: 852 w x 393 h');
+        // debugPrint('in else landscape: iPhones: 852 w x 393 h');
         adjustedFontSize = iPhone393x852landscape * scaleFactor;
         return adjustedFontSize;
       }
@@ -137,7 +137,7 @@ class CalculateFontSizeClass {
       double iPhone430x932landscape = 10.0;
       if ((orientation == Orientation.portrait) && ((width == 430) && (height == 932))) {
         adjustedFontSize = iPhone430x932portrait * scaleFactor;
-        debugPrint('in iPhone430x932portrait adjustedFontSize =$adjustedFontSize');
+        // debugPrint('in iPhone430x932portrait adjustedFontSize =$adjustedFontSize');
         return adjustedFontSize;
       } else if ((orientation == Orientation.landscape) && ((width == 932) && (height == 430))) {
         adjustedFontSize = iPhone430x932landscape * scaleFactor;
@@ -257,7 +257,7 @@ class CalculateFontSizeClass {
       double androidGenericSmallLandscape = 10.0;
       if ((orientation == Orientation.portrait) && (width < 320)) {
         adjustedFontSize = androidGenericSmallPortrait * scaleFactor;
-        debugPrint('in Android screen size: small less then 320px height: $height\nwidth: $width');
+        // debugPrint('in Android screen size: small less then 320px height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (height < 320)) {
         adjustedFontSize = androidGenericSmallLandscape * scaleFactor;
@@ -268,8 +268,8 @@ class CalculateFontSizeClass {
       double androidGenericMediumLandscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 320 && width <= 360)) {
         adjustedFontSize = androidGenericMediumPortrait * scaleFactor;
-        debugPrint(
-            'in Android screen size: medium width >= 320 && width <= 360 height: $height\nwidth: $width');
+        // debugPrint(
+        //     'in Android screen size: medium width >= 320 && width <= 360 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (height >= 320 && height <= 360)) {
         adjustedFontSize = androidGenericMediumLandscape * scaleFactor;
@@ -280,8 +280,8 @@ class CalculateFontSizeClass {
       double androidGenericLargeLandscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 360 && width <= 420)) {
         adjustedFontSize = androidGenericLargePortrait * scaleFactor;
-        debugPrint(
-            'in Android screen size: large width >= 360 && width <= 420 height: $height\nwidth: $width');
+        // debugPrint(
+        //     'in Android screen size: large width >= 360 && width <= 420 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (height >= 360 && height <= 420)) {
         adjustedFontSize = androidGenericLargeLandscape * scaleFactor;
@@ -292,7 +292,7 @@ class CalculateFontSizeClass {
       double androidGenericTableLandscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 421)) {
         adjustedFontSize = androidGenericTabletPortrait * scaleFactor;
-        debugPrint('in Android screen size: tablet width >= 421 height: $height\nwidth: $width');
+        // debugPrint('in Android screen size: tablet width >= 421 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (height >= 421)) {
         adjustedFontSize = androidGenericTableLandscape * scaleFactor;
@@ -308,7 +308,7 @@ class CalculateFontSizeClass {
       double android182x295landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 182 && height <= 295)) {
         adjustedFontSize = android182x295portrait * scaleFactor;
-        debugPrint('in Android 182 x 295 height: $height\nwidth: $width');
+        // debugPrint('in Android 182 x 295 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 295 && height <= 182)) {
         adjustedFontSize = android182x295landscape * scaleFactor;
@@ -321,7 +321,7 @@ class CalculateFontSizeClass {
       double android182x315landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 182 && height <= 315)) {
         adjustedFontSize = android182x315portrait * scaleFactor;
-        debugPrint('in Android 182 x 315 height: $height\nwidth: $width');
+        // debugPrint('in Android 182 x 315 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 315 && height <= 182)) {
         adjustedFontSize = android182x315landscape * scaleFactor;
@@ -336,7 +336,7 @@ class CalculateFontSizeClass {
       double android205x354landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 205 && height <= 354)) {
         adjustedFontSize = android205x354portrait * scaleFactor;
-        debugPrint('in Android 205 x 354 height: $height\nwidth: $width');
+        // debugPrint('in Android 205 x 354 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 354 && height <= 205)) {
         adjustedFontSize = android205x354landscape * scaleFactor;
@@ -362,7 +362,7 @@ class CalculateFontSizeClass {
       double android292x472landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 292 && height <= 472)) {
         adjustedFontSize = android292x472portrait * scaleFactor;
-        debugPrint('in Android 292 x 472 height: $height\nwidth: $width');
+        // debugPrint('in Android 292 x 472 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 472 && height <= 292)) {
         adjustedFontSize = android292x472landscape * scaleFactor;
@@ -376,7 +376,7 @@ class CalculateFontSizeClass {
       double android304x472landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 304 && height <= 472)) {
         adjustedFontSize = android304x472portrait * scaleFactor;
-        debugPrint('in Android 304 x 472 height: $height\nwidth: $width');
+        // debugPrint('in Android 304 x 472 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 472 && height <= 304)) {
         adjustedFontSize = android304x472landscape * scaleFactor;
@@ -389,7 +389,7 @@ class CalculateFontSizeClass {
       double android365x199landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 365 && height <= 199)) {
         adjustedFontSize = android365x199portrait * scaleFactor;
-        debugPrint('in Android 304 x 472 height: $height\nwidth: $width');
+        // debugPrint('in Android 304 x 472 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 199 && height <= 365)) {
         adjustedFontSize = android365x199landscape * scaleFactor;
@@ -402,7 +402,7 @@ class CalculateFontSizeClass {
       double android487x266landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 487 && height <= 266)) {
         adjustedFontSize = android487x266portrait * scaleFactor;
-        debugPrint('in Android 487 x 266 height: $height\nwidth: $width');
+        // debugPrint('in Android 487 x 266 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 266 && height <= 487)) {
         adjustedFontSize = android487x266landscape * scaleFactor;
@@ -447,7 +447,7 @@ class CalculateFontSizeClass {
       double android392x885landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 392 && height <= 885)) {
         adjustedFontSize = android392x885portrait * scaleFactor;
-        debugPrint('in Android 392 x 885 height: $height\nwidth: $width');
+        // debugPrint('in Android 392 x 885 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 885 && height <= 392)) {
         adjustedFontSize = android392x885landscape * scaleFactor;
@@ -485,7 +485,7 @@ class CalculateFontSizeClass {
       double android548x1180landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 548 && height <= 1180)) {
         adjustedFontSize = android548x1180portrait * scaleFactor;
-        debugPrint('in Android 548 x 1180 height: $height\nwidth: $width');
+        // debugPrint('in Android 548 x 1180 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 1180 && height <= 548)) {
         adjustedFontSize = android548x1180landscape * scaleFactor;
@@ -504,7 +504,7 @@ class CalculateFontSizeClass {
       double android731x398landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 731 && height <= 398)) {
         adjustedFontSize = android731x398portrait * scaleFactor;
-        debugPrint('in Android 731 x 398 height: $height\nwidth: $width');
+        // debugPrint('in Android 731 x 398 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 398 && height <= 731)) {
         adjustedFontSize = android731x398landscape * scaleFactor;
@@ -523,7 +523,7 @@ class CalculateFontSizeClass {
       double android975x531landscape = 10.0;
       if ((orientation == Orientation.portrait) && (width >= 1127 && height <= 531)) {
         adjustedFontSize = android975x531portrait * scaleFactor;
-        debugPrint('in Android 1127 x 531 height: $height\nwidth: $width');
+        // debugPrint('in Android 1127 x 531 height: $height\nwidth: $width');
         return adjustedFontSize;
       } else if (orientation == Orientation.landscape && (width >= 531 && height <= 1127)) {
         adjustedFontSize = android975x531landscape * scaleFactor;

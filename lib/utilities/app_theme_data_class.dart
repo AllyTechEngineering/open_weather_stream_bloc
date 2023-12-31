@@ -205,8 +205,4 @@ class AppThemeDataClass {
       ),
     );
   }
-
-  // double calculateAdjustedFontSize(double baseFontSize, BuildContext context) {
-  //   return baseFontSize * MediaQuery.of(context).textScaler.scale(1.0);
-  // }
 }

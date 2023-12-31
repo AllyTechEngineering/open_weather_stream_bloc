@@ -8,6 +8,7 @@ const double kTitleTextStyle = 20.0;
 const double kIconThemeSize = 50.0;
 const double kActionsIconThemeIconSize = 35.0;
 const double kIconThemeIconSize = 40.0;
+const double kIconSearchSize = 100.0;
 const double kShowIconWidth = 150.0;
 const double kShowIconHeight = 150.0;
 const int kIconThemeColor = 0xFF053B50;

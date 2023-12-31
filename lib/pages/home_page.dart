@@ -22,8 +22,6 @@ class _HomePageState extends State<HomePage> {
   final ShowWindDirectionClass showWindDirectionClass = ShowWindDirectionClass();
   final ShowTemperatureAndWindClass showTemperatureAndWindClass = ShowTemperatureAndWindClass();
   String? _city;
-  double? _lat = 0.0;
-  double? _lon = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +42,7 @@ class _HomePageState extends State<HomePage> {
                 }),
               );
               if (_city != null) {
-                context
-                    .read<WeatherBloc>()
-                    .add(FetchWeatherEvent(city: _city!, lat: _lat!, lon: _lon!));
+                context.read<WeatherBloc>().add(FetchWeatherEvent(city: _city!));
               }
             },
           ),
@@ -127,11 +123,10 @@ class _HomePageState extends State<HomePage> {
                   IconButton(
                     icon: Icon(
                       Icons.search,
-                      size: Theme.of(context).iconTheme.size,
+                      size: kIconSearchSize,
                       color: Theme.of(context).iconTheme.color,
                     ),
                     onPressed: () async {
-                      //_city was here
                       _city = await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
@@ -140,14 +135,12 @@ class _HomePageState extends State<HomePage> {
                       );
                       // This is where the city from the search page goes
                       if (_city != null) {
-                        context
-                            .read<WeatherBloc>()
-                            .add(FetchWeatherEvent(city: _city!, lat: _lat!, lon: _lon!));
+                        context.read<WeatherBloc>().add(FetchWeatherEvent(city: _city!));
                       }
                     },
                   ),
                   Text(
-                    'Select a city',
+                    'Click For Weather',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ],

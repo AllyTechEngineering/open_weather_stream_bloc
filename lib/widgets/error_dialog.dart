@@ -9,7 +9,7 @@ void errorDialog(BuildContext context, String errorMessage) {
       barrierDismissible: false,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text('Error'),
+          title: const Text('Network Error'),
           content: Text(errorMessage),
           actions: [
             CupertinoDialogAction(
@@ -26,7 +26,7 @@ void errorDialog(BuildContext context, String errorMessage) {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Error'),
+          title: const Text('Network Error'),
           content: Text(errorMessage),
           actions: [
             TextButton(

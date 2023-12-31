@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:open_weather_stream_bloc/repositories/weather_repository.dart';
 import '../utilities/constants.dart';
@@ -13,7 +14,9 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>();
   String? _city;
-  dynamic _positionResults;
+  String? _currentAddress;
+  Position? _currentPosition;
+  // dynamic _positionResults;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   @override
@@ -195,11 +198,6 @@ class _SearchPageState extends State<SearchPage> {
   void getCurrentLatAndLon() {
     _handleLocationPermission();
     _getCurrentPosition();
-    Navigator.pushNamed(
-      context,
-      '/nav',
-      arguments: _positionResults,
-    );
   }
 
   Future<bool> _handleLocationPermission() async {
@@ -208,11 +206,17 @@ class _SearchPageState extends State<SearchPage> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Location services are disabled. Please enable the services')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Location services are disabled. Please enable the services'),
+        ),
+      );
       return false;
     }
     permission = await Geolocator.checkPermission();
+    // new code to stop from asking permission over and over again
+    // permission != LocationPermission.always
+    // if (permission != LocationPermission.always) {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
@@ -227,6 +231,8 @@ class _SearchPageState extends State<SearchPage> {
               Text('Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
+    // }
+
     return true;
   }
 
@@ -235,16 +241,33 @@ class _SearchPageState extends State<SearchPage> {
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
-      debugPrint('position = ${position.longitude}');
-      debugPrint('position = ${position.latitude}');
-      _positionResults = position;
+      // debugPrint('position = ${position.longitude}');
+      // debugPrint('position = ${position.latitude}');
+      // _positionResults = position;
       double _lat = position.latitude;
       double _lon = position.longitude;
       //_latAndLonList[0] = _lat;
       // _latAndLonList[0] = _lon;
       //Navigator.pop(context, position);
-      //setState(() => _currentPosition = position);
-      // _getAddressFromLatLng(_currentPosition!);
+      setState(() => _currentPosition = position);
+      _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    // debugPrint('In Geocoder which has request limits');
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}, ${place.locality}';
+        _city = place.locality;
+        Navigator.pop(context, _city!.trim());
+        debugPrint('This is the current address: $_currentAddress');
+      });
     }).catchError((e) {
       debugPrint(e);
     });

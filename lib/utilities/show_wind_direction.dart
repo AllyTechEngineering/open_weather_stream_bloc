@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class ShowWindDirectionClass {
   String showWindDirection(int windDegree) {
     String windDirectionString = 'N';
-    debugPrint('windDegree = $windDegree');
+    // debugPrint('windDegree = $windDegree');
     if (windDegree >= 349 && windDegree <= 11) {
       return windDirectionString = 'N';
     } else if (windDegree >= 12 && windDegree <= 33) {
