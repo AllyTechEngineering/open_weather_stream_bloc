@@ -9,7 +9,7 @@ sealed class WeatherEvent extends Equatable {
 
 class FetchWeatherEvent extends WeatherEvent {
   final String city;
-  FetchWeatherEvent({
-    required this.city,
-  });
+  final double lat;
+  final double lon;
+  FetchWeatherEvent({required this.city, required this.lat, required this.lon});
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_weather_stream_bloc/utilities/show_wind_direction.dart';
 // import 'package:open_weather_stream_bloc/utilities/calculate_font_size_class.dart';
 import 'package:recase/recase.dart';
 import '../utilities/constants.dart';
 import '../blocs/blocs.dart';
+import '../utilities/show_temperature_and_wind.dart';
 import '../widgets/error_dialog.dart';
 import 'search_page.dart';
 import 'settings_page.dart';
@@ -17,7 +19,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final ShowWindDirectionClass showWindDirectionClass = ShowWindDirectionClass();
+  final ShowTemperatureAndWindClass showTemperatureAndWindClass = ShowTemperatureAndWindClass();
   String? _city;
+  double? _lat = 0.0;
+  double? _lon = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,9 @@ class _HomePageState extends State<HomePage> {
                 }),
               );
               if (_city != null) {
-                context.read<WeatherBloc>().add(FetchWeatherEvent(city: _city!));
+                context
+                    .read<WeatherBloc>()
+                    .add(FetchWeatherEvent(city: _city!, lat: _lat!, lon: _lon!));
               }
             },
           ),
@@ -71,47 +79,12 @@ class _HomePageState extends State<HomePage> {
 
   String showTemperature(double temperature) {
     final tempUnit = context.watch<TempSettingsBloc>().state.tempUnit;
-    if (tempUnit == TempUnit.fahrenheit) {
-      return ((temperature * 9 / 5) + 32).toStringAsFixed(2) + '℉';
-    }
-    return temperature.toStringAsFixed(2) + '℃';
+    return showTemperatureAndWindClass.showTemperatureResults(temperature, tempUnit);
   }
 
   String showWindSpeed(double windSpeed) {
     final tempUnit = context.watch<TempSettingsBloc>().state.tempUnit;
-
-    if (tempUnit == TempUnit.fahrenheit) {
-      return (windSpeed * 1.943844).toStringAsFixed(2) + ' kn';
-    }
-    return windSpeed.toStringAsFixed(2) + ' m/s';
-  }
-
-  String showWindDirection(int windDegree) {
-    double windDirectionIndex;
-    var windDirectionString;
-    List<String> windDegreeList = [
-      'N',
-      'NNE',
-      'NE',
-      'ENE',
-      'E',
-      'ESE',
-      'SE',
-      'SSE',
-      'S',
-      'SSW',
-      'SW',
-      'WSW',
-      'W',
-      'WNW',
-      'NW',
-      'NNW',
-      'N'
-    ];
-    windDirectionIndex = windDegree % 360;
-    windDirectionIndex = (windDirectionIndex / 22.50) + 1;
-    windDirectionString = windDegreeList[windDirectionIndex.toInt()];
-    return windDirectionString;
+    return showTemperatureAndWindClass.showWindSpeedResults(windSpeed, tempUnit);
   }
 
   Widget showIcon(String icon) {
@@ -158,14 +131,18 @@ class _HomePageState extends State<HomePage> {
                       color: Theme.of(context).iconTheme.color,
                     ),
                     onPressed: () async {
+                      //_city was here
                       _city = await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) {
                           return SearchPage();
                         }),
                       );
+                      // This is where the city from the search page goes
                       if (_city != null) {
-                        context.read<WeatherBloc>().add(FetchWeatherEvent(city: _city!));
+                        context
+                            .read<WeatherBloc>()
+                            .add(FetchWeatherEvent(city: _city!, lat: _lat!, lon: _lon!));
                       }
                     },
                   ),
@@ -296,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Wind Direction: ${showWindDirection(state.weather.deg)}',
+                    'Wind Direction: ${showWindDirectionClass.showWindDirection(state.weather.deg)}',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:geolocator/geolocator.dart';
+import 'package:open_weather_stream_bloc/repositories/weather_repository.dart';
 import '../utilities/constants.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,24 +13,13 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final _formKey = GlobalKey<FormState>();
   String? _city;
+  dynamic _positionResults;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-
-  void _submit() {
-    setState(() {
-      autovalidateMode = AutovalidateMode.always;
-    });
-
-    final form = _formKey.currentState;
-
-    if (form != null && form.validate()) {
-      form.save();
-      Navigator.pop(context, _city!.trim());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
@@ -131,7 +121,7 @@ class _SearchPageState extends State<SearchPage> {
               const SizedBox(height: 20.0),
               Container(
                 //          fixedSize: Size(250.0, 75.0),
-                width: 250.0,
+                width: 300.0,
                 height: 75.0,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
@@ -149,8 +139,36 @@ class _SearchPageState extends State<SearchPage> {
                 child: ElevatedButton(
                   onPressed: _submit,
                   child: Text(
-                    "Check Weather",
+                    "Check Any City Weather",
                     style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  //          fixedSize: Size(250.0, 75.0),
+                  width: 300.0,
+                  height: 75.0,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Color(0xFFFFECD6),
+                        Color(0xFF4CB9E7),
+                      ],
+                      stops: [0.0, 0.9],
+                    ),
+                    // color: Colors.deepPurple.shade300,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: ElevatedButton(
+                    onPressed: getCurrentLatAndLon,
+                    child: Text(
+                      "Check Local Weather",
+                      style: Theme.of(context).textTheme.displayLarge,
+                    ),
                   ),
                 ),
               ),
@@ -159,5 +177,76 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
+  }
+
+  void _submit() {
+    setState(() {
+      autovalidateMode = AutovalidateMode.always;
+    });
+
+    final form = _formKey.currentState;
+
+    if (form != null && form.validate()) {
+      form.save();
+      Navigator.pop(context, _city!.trim());
+    }
+  }
+
+  void getCurrentLatAndLon() {
+    _handleLocationPermission();
+    _getCurrentPosition();
+    Navigator.pushNamed(
+      context,
+      '/nav',
+      arguments: _positionResults,
+    );
+  }
+
+  Future<bool> _handleLocationPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Location services are disabled. Please enable the services')));
+      return false;
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Location permissions are denied')));
+        return false;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content:
+              Text('Location permissions are permanently denied, we cannot request permissions.')));
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final hasPermission = await _handleLocationPermission();
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      debugPrint('position = ${position.longitude}');
+      debugPrint('position = ${position.latitude}');
+      _positionResults = position;
+      double _lat = position.latitude;
+      double _lon = position.longitude;
+      //_latAndLonList[0] = _lat;
+      // _latAndLonList[0] = _lon;
+      //Navigator.pop(context, position);
+      //setState(() => _currentPosition = position);
+      // _getAddressFromLatLng(_currentPosition!);
+    }).catchError((e) {
+      debugPrint(e);
+    });
   }
 }

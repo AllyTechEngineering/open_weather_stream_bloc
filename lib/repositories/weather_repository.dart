@@ -28,4 +28,21 @@ class WeatherRepository {
       throw CustomError(errMsg: e.toString());
     }
   }
+
+  Future<Weather> fetchWeatherWithLatAndLon(double lat, double lon) async {
+    try {
+      final Weather tempWeather = await weatherApiServices.getWeatherFromLocationData(lat, lon);
+
+      final Weather weather = tempWeather.copyWith(
+        lat: tempWeather.lat,
+        lon: tempWeather.lon,
+      );
+
+      return weather;
+    } on WeatherException catch (e) {
+      throw CustomError(errMsg: e.message);
+    } catch (e) {
+      throw CustomError(errMsg: e.toString());
+    }
+  }
 }
